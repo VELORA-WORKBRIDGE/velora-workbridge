@@ -31,7 +31,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/dce312983b246b6c62316334d63e6913250c542c/integrations/velora-shopify-zite/sync.mjs"
         }
       ],
-      "relationship": "inherited_in_transfer_branch"
+      "relationship": "external_reference_only"
     },
     {
       "repository": "withkoji/velora-booking-commerce",
@@ -54,7 +54,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/982ecdc6dda3b2eb34f1e06b99da1ae3b56e782f/docs/stripe-release-sequence.md"
         }
       ],
-      "relationship": "inherited_in_transfer_branch"
+      "relationship": "external_reference_only"
     },
     {
       "repository": "withkoji/velora-booking-commerce",
@@ -72,7 +72,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/87b11ca17c1cd44563ee6142aeefdb033eed8eda/STRIPE_INTEGRATION_TODO.md"
         }
       ],
-      "relationship": "reference_only"
+      "relationship": "external_reference_only"
     },
     {
       "repository": "withkoji/velora-booking-commerce",
@@ -90,7 +90,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/afb9a68cb62c252bdf0617078ec4b1a564004750/integrations/stripe-server/render.yaml"
         }
       ],
-      "relationship": "reference_only"
+      "relationship": "external_reference_only"
     },
     {
       "repository": "withkoji/velora-booking-commerce",
@@ -108,7 +108,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/519d5cbb03887bc785f65885ba708327dcb09e93/docs/CNAME"
         }
       ],
-      "relationship": "reference_only"
+      "relationship": "external_reference_only"
     },
     {
       "repository": "withkoji/velora-booking-commerce",
@@ -146,7 +146,7 @@
           "url": "https://github.com/withkoji/velora-booking-commerce/blob/cee3cd77a25e67fa79b86317c31cc92f3090065a/docs/WIKI.md"
         }
       ],
-      "relationship": "reference_only"
+      "relationship": "external_reference_only"
     }
   ],
   "related_repositories": [
@@ -167,5 +167,6 @@
     "rentals": "https://viviarentalhomes.zite.so",
     "careers": "https://workbridge.zite.so"
   },
-  "integration_status": "Portal links only; live plugin data access is not enabled."
+  "integration_status": "Portal links only; live plugin data access is not enabled.",
+  "source_history_note": "Booking-commerce main and Stripe guards are ancestors of the original transfer branch in the source repository. Their history and runtime are not imported into this repository."
 }
