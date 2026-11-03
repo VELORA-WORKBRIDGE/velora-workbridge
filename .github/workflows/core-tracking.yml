@@ -1,0 +1,19 @@
+name: Set up core issue tracking
+on:
+  push:
+    branches: [metadata/core-tracking]
+permissions:
+  contents: read
+  issues: write
+concurrency:
+  group: core-issue-setup
+  cancel-in-progress: false
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - run: node scripts/setup-core-tracking.mjs
