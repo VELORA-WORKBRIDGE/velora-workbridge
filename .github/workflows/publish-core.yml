@@ -1,0 +1,55 @@
+name: Publish core v0.1.0
+on:
+  push:
+    branches: [release/core-v0.1.0]
+permissions:
+  contents: write
+  packages: write
+concurrency:
+  group: publish-core-v0.1.0
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VERSION: v0.1.0
+      IMAGE: ghcr.io/withkoji/velora-workbridge
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - name: Validate app
+        run: node scripts/validate-workbridge.mjs
+      - name: Ensure version is unused
+        run: |
+          if gh api "repos/$GITHUB_REPOSITORY/git/ref/tags/$VERSION" >/dev/null 2>&1; then
+            echo "Version tag already exists; refusing to overwrite."
+            exit 1
+          fi
+      - name: Package web app
+        run: |
+          mkdir -p release-assets
+          (cd apps/velora-workbridge/dist && zip -qr "$GITHUB_WORKSPACE/release-assets/velora-workbridge-web-v0.1.0.zip" .)
+          (cd release-assets && sha256sum *.zip > SHA256SUMS.txt)
+      - name: Build and test container
+        run: |
+          docker build --label "org.opencontainers.image.source=https://github.com/$GITHUB_REPOSITORY" --label "org.opencontainers.image.revision=$GITHUB_SHA" --label "org.opencontainers.image.version=$VERSION" -t "$IMAGE:$VERSION" -f packaging/Dockerfile .
+          docker run -d --name hub-check -p 127.0.0.1:8080:80 "$IMAGE:$VERSION"
+          trap 'docker rm -f hub-check' EXIT
+          for attempt in $(seq 1 20); do
+            if curl --fail --silent http://127.0.0.1:8080/ -o /tmp/hub-index.html; then break; fi
+            sleep 1
+          done
+          grep -q "Good things start here" /tmp/hub-index.html
+          curl --fail --silent http://127.0.0.1:8080/manifest.webmanifest | python3 -m json.tool >/dev/null
+          curl --fail --silent http://127.0.0.1:8080/icon-512.png -o /tmp/hub-icon.png
+          test -s /tmp/hub-icon.png
+      - name: Publish container package
+        run: |
+          printf '%s' "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_REPOSITORY_OWNER" --password-stdin
+          docker push "$IMAGE:$VERSION"
+          docker image inspect "$IMAGE:$VERSION" --format '{{json .RepoDigests}}' > release-assets/container-digests.json
+          docker logout ghcr.io
+      - name: Publish release
+        run: |
+          gh release create "$VERSION" release-assets/* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title "VELORA · VIVIA · WORKBRIDGE Core v0.1.0" --notes-file packaging/RELEASE_NOTES.md
