@@ -25,10 +25,10 @@ The OpenAPI profile and remote-job search work remain owned by their original re
 
 Target: `withkoji/velora-workbridge` (created; private).
 
-The reviewable transfer branch is `integration/velora-workbridge-hub` in the existing repository. This app snapshot is transferred on integration/velora-workbridge-hub for review before merging to main. Preserve the historical branch names as archive refs only after review; never force-push an existing destination. Update deployment bindings explicitly after transfer. The current ChatGPT Site retains its existing identity and source repository.
+The reviewable transfer branch is `integration/velora-workbridge-hub` in this repository; see [PR #1](https://github.com/withkoji/velora-workbridge/pull/1). This app snapshot is transferred on integration/velora-workbridge-hub for review before merging to main. Preserve the historical branch names as archive refs only after review; never force-push an existing destination. Update deployment bindings explicitly after transfer. The current ChatGPT Site retains its existing identity and source repository.
 
 Do not copy credentials, local runtime state or the existing Site hosting identity into a new independently deployed Site. Configure deployment secrets outside Git.
 
 ## Verification
 
-JavaScript syntax, manifest icon paths and the three portal destinations are checked by ../../scripts/validate-workbridge.mjs. CI also runs inherited Stripe receiver regressions. Neither proves live payments, live plugin access or job/property authenticity.
+JavaScript syntax, manifest icon paths and the three portal destinations are checked by ../../scripts/validate-workbridge.mjs. This repository runs the WORKBRIDGE hub checks only. Stripe receiver regressions run in the separate booking-commerce repository. Neither proves live payments, live plugin access or job/property authenticity.
