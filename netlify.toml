@@ -1,0 +1,18 @@
+# The WORKBRIDGE hub is buildless HTML/CSS/JS; there is no package.json.
+# These settings override the dashboard build settings.
+[build]
+  base = "/"
+  command = "node scripts/validate-workbridge.mjs"
+  publish = "apps/velora-workbridge/dist"
+  functions = "netlify/functions"
+
+# Make sure the service worker is always revalidated so app updates roll out.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Content-Type = "application/manifest+json"
