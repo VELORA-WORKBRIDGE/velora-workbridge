@@ -1,0 +1,12 @@
+[build]
+  # The hub is buildless; the build step runs the repository's validation and integration tests.
+  command = "node scripts/validate-workbridge.mjs && node --test integrations/velora-shopify-zite/sync.test.mjs"
+  publish = "apps/velora-workbridge/dist"
+
+[functions]
+  directory = "netlify/functions"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
