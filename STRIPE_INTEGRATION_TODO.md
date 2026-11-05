@@ -6,6 +6,10 @@ Scenario B was detected: no existing Stripe Checkout Session API call is present
 
 The repository does not contain an application server framework, package manifest, or existing server entrypoint. Its `api/` directory currently contains only `.gitkeep`. Adding a server endpoint would therefore require choosing and introducing a deployment/server framework that is not verifiably part of the project. Per the integration task, no such framework is being invented.
 
+## Update: Netlify Functions starter
+
+Sandbox-only Stripe Terminal and webhook endpoints now exist as Netlify Functions. See `docs/netlify-functions.md`. Checkout Session creation, booking confirmation and live payments are still not implemented.
+
 ## Values to Replace
 
 No Checkout Session endpoint was added, so there are currently no code placeholders to replace.
